@@ -1,87 +1,236 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carl Louie Quillo — Portfolio</title>
+<meta name="description" content="Carl Louie A. Quillo — IT student in Iloilo, Philippines. Programming, systems, and a little bit of motorbike mechanics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="style.css">
-            <title>Profile</title>
-        </head>
+<!-- ===================== TEAR OVERLAY (the 2022 site) ===================== -->
+<div class="tear-overlay" id="tearOverlay">
+    <div class="tear-piece tear-piece--left">
+        <iframe class="tear-frame" data-page="index" src="Old/index.html" title="Old portfolio (2022) — Profile"></iframe>
+        <iframe class="tear-frame" data-page="education" src="Old/education.html" title="Old portfolio (2022) — Education"></iframe>
+    </div>
+    <div class="tear-piece tear-piece--right">
+        <iframe class="tear-frame" data-page="index" src="Old/index.html" title="Old portfolio (2022) — Profile"></iframe>
+        <iframe class="tear-frame" data-page="education" src="Old/education.html" title="Old portfolio (2022) — Education"></iframe>
+    </div>
+    <div class="tear-seam">
+        <button class="tear-button" id="tearButton" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h4l2-7 4 14 2-7h4"/></svg>
+            Tear it open
+        </button>
+    </div>
+</div>
 
-        <body class="page-body">
+<!-- ===================== NEW SITE ===================== -->
+<div class="circuit-backdrop" aria-hidden="true"></div>
 
-            <div class="page-backdrop"></div>
-            <div class="page-content">
-                
-                <header class="page-header">
-                    <h1 class="page-title">Profile</h1>
-                    <nav class="main-nav">
-                        <ul class="nav-list">
-                            <li class="nav-item"><a href="index.html" class="nav-link nav-link--active">Profile</a></li>
-                            <li class="nav-item"><a href="education.html" class="nav-link">Education</a></li>
-                        </ul>
-                    </nav>
-                </header>
+<nav class="site-nav">
+    <a href="#top" class="brand-mark">CLQ</a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#resume">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-                <main class="main-content profile-content">
-                    <aside class="sidebar sidebar--left">
-                        <img src="icons/pfp.jpg" alt="Profile Picture" class="profile-image"/>
-                        <div class="personal-info">
-                            <p class="info-item"><strong>First Name:</strong> Carl Louie</p>
-                            <p class="info-item"><strong>Middle Initial:</strong> A.</p>
-                            <p class="info-item"><strong>Last Name:</strong> Quillo</p>
-                            <p class="info-item"><strong>Student ID:</strong> 2022-****-A</p>
-                        </div>
-                    </aside>
-                    
-                    <section class="main-section">
-                        <article class="profile-section">
-                            <h2 class="section-title">Biography</h2>
-                            <p class="section-content">I’m an IT student from Iloilo, Philippines, specializing in programming, compiling, video editing, and light gaming. With a deep passion for technology. Equipped with skills in tools like VS Code and XAMPP, I’m driven by the desire to streamline development and tackle real-world technical challenges.
-                                In addition to technology, I’m an entrepreneur exploring business opportunities. Constantly seeking new ventures, I take a creative and practical approach to business growth.
-                                Outside the tech world, I have a passion for motorbikes, enjoying both riding and customizing them to enhance their performance. This interest fuels my love for mechanics and practical innovations.</p>
-                        </article>
+<main id="top">
 
-                        <article class="profile-section">
-                            <h2 class="section-title">Address</h2>
-                            <p class="section-content">Iloilo City, Philippines</p>
-                        </article>
-                        
-                        <article class="profile-section">
-                            <h2 class="section-title">Contacts</h2>
-                            <p class="section-content"><strong>Email:</strong> carllouie.quillo@students.isatu.edu.ph</p>
-                            <p class="section-content"><strong>Phone:</strong> (+63) 9969268210</p>
-                        </article>
+    <!-- HERO -->
+    <section class="hero section" id="hero">
+        <p class="hero-eyebrow">Batcherlor of Science in Information Technology — Iloilo, Philippines</p>
+        <h1 class="hero-name">Carl Louie <span>Quillo</span></h1>
+        <p class="hero-tagline">I build software during the week and tune engines on the weekend — third-year BSIT student who's just as comfortable in a terminal as under a motorbike seat.</p>
+        <div class="hero-actions">
+            <a href="#projects" class="btn btn--primary">View projects</a>
+            <a href="#resume" class="btn btn--ghost">Download resume</a>
+        </div>
+        <div class="hero-meta">
+            <div><strong>BSIT</strong>Iloilo Science &amp; Technology University</div>
+            <div><strong>Graduate</strong>2022 - 2026</div>
+            <div><strong>Based in</strong>Iloilo City, PH</div>
+        </div>
+    </section>
 
-                        <div class="social-links-container">
-                            <h2 class="section-title">Social Media</h2>
-                            <ul class="social-links">
-                                <li class="social-item">
-                                    <a href="https://facebook.com" target="_blank" class="social-link" aria-label="Facebook Profile">
-                                        <img src="icons/F2.png" alt="Facebook" class="social-icon" />
-                                    </a>
-                                </li>
-
-                                <li class="social-item">
-                                    <a href="https://instagram.com" target="_blank" class="social-link" aria-label="Instagram Profile">
-                                        <img src="icons/I2.png" alt="Instagram" class="social-icon" />
-                                    </a>
-                                </li>
-                                
-                                <li class="social-item">
-                                    <a href="https://twitter.com" target="_blank" class="social-link" aria-label="Twitter Profile">
-                                        <img src="icons/T2.png" alt="Twitter" class="social-icon" />
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
-                </main>
-
-                <footer class="page-footer">
-                    <p>&copy; 2024 By yours truly</p>
-                </footer>
-
+    <!-- ABOUT -->
+    <section class="section" id="about">
+        <p class="section-eyebrow">About</p>
+        <h2 class="section-heading">From the first "Hello, World" to actually shipping things.</h2>
+        <div class="about-grid">
+            <div class="about-copy">
+                <p><strong>I'm an IT student</strong> specializing in programming, compiling, and building small tools that make development smoother — running most of my work through VS Code and XAMPP.</p>
+                <p>Outside the code editor, I'm an <strong>entrepreneur at heart</strong>, always exploring new business ideas and taking a practical, hands-on approach to growing them.</p>
+                <p>And when I step away from the screen, you'll probably find me with a <strong>motorbike</strong> — riding, customizing, and tuning performance. It's the same problem-solving instinct as debugging code, just with more grease.</p>
             </div>
-        </body>
-    </html>
+            <dl class="spec-list">
+                <div class="spec-row"><dt>Degree</dt><dd>BS Information Technology</dd></div>
+                <div class="spec-row"><dt>Institution</dt><dd>ISAT U</dd></div>
+                <div class="spec-row"><dt>Status</dt><dd>Graduate, 2022 - 2026</dd></div>
+                <div class="spec-row"><dt>Location</dt><dd>Iloilo City, PH</dd></div>
+                <div class="spec-row"><dt>Interests</dt><dd>Dev tools, video editing, motorbikes</dd></div>
+            </dl>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+        <p class="section-eyebrow">Skills</p>
+        <h2 class="section-heading">Tools I reach for.</h2>
+        <div class="skill-groups">
+            <div class="skill-group">
+                <h3>Dev &amp; Tools</h3>
+                <div class="chip-row">
+                    <span class="chip">VS Code</span>
+                    <span class="chip">XAMPP</span>
+                    <span class="chip">HTML/CSS</span>
+                    <span class="chip">JavaScript</span>
+                    <span class="chip">PHP</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>Systems &amp; Hands-on</h3>
+                <div class="chip-row">
+                    <span class="chip">PC Building</span>
+                    <span class="chip">Troubleshooting</span>
+                    <span class="chip">Motorbike Tuning</span>
+                    <span class="chip">Mechanics</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>Creative</h3>
+                <div class="chip-row">
+                    <span class="chip">Video Editing</span>
+                    <span class="chip">Content Creation</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h3>Business</h3>
+                <div class="chip-row">
+                    <span class="chip">Entrepreneurship</span>
+                    <span class="chip">Market Research</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="section" id="education">
+        <p class="section-eyebrow">Education</p>
+        <h2 class="section-heading">The path so far.</h2>
+        <div class="timeline">
+            <div class="timeline-item timeline-item--current">
+                <p class="timeline-year">2022 — 2026</p>
+                <p class="timeline-title">BS Information Technology</p>
+                <p class="timeline-detail">Iloilo Science and Technology University</p>
+            </div>
+            <div class="timeline-item">
+                <p class="timeline-year">2021</p>
+                <p class="timeline-title">Senior High School, ICT Strand</p>
+                <p class="timeline-detail">Iloilo National High School — Information and Communications Technology track.</p>
+            </div>
+            <div class="timeline-item">
+                <p class="timeline-year">2019</p>
+                <p class="timeline-title">High School</p>
+                <p class="timeline-detail">Iloilo National High School — Regular program.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+        <p class="section-eyebrow">Projects</p>
+        <h2 class="section-heading">Things I've built (and things I'm about to).</h2>
+        <div class="project-grid">
+            <article class="project-card project-card--placeholder">
+                <p class="project-index">01 / Add your project</p>
+                <h3 class="project-title">Project name here</h3>
+                <p class="project-desc">Swap this card for a real build — what it does, the problem it solves, and your role in it.</p>
+                <div class="project-tags"><span class="chip">Edit me</span></div>
+            </article>
+            <article class="project-card project-card--placeholder">
+                <p class="project-index">02 / Add your project</p>
+                <h3 class="project-title">Project name here</h3>
+                <p class="project-desc">A second slot for coursework, a freelance job, or a personal tool — link a repo or live demo once it's ready.</p>
+                <div class="project-tags"><span class="chip">Edit me</span></div>
+            </article>
+            <article class="project-card project-card--placeholder">
+                <p class="project-index">03 / Add your project</p>
+                <h3 class="project-title">Project name here</h3>
+                <p class="project-desc">Even a small script or a motorbike-tuning log app counts. Show the range of what you're building.</p>
+                <div class="project-tags"><span class="chip">Edit me</span></div>
+            </article>
+        </div>
+    </section>
+
+    <!-- RESUME -->
+    <section class="section" id="resume">
+        <p class="section-eyebrow">Resume</p>
+        <h2 class="section-heading">Get the short version.</h2>
+        <div class="resume-card">
+            <div>
+                <h3>Carl Louie A. Quillo — Resume</h3>
+                <p>A one-page summary of education, skills, and contact details. Swap this file once your project list is ready.</p>
+            </div>
+            <a href="Carl_Louie_Quillo_Resume.pdf" class="btn btn--primary" download>
+                Download PDF
+            </a>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+        <p class="section-eyebrow">Contact</p>
+        <h2 class="section-heading">Let's talk.</h2>
+        <div class="contact-grid">
+            <ul class="contact-list">
+                <li>
+                    <span class="label">Email</span>
+                    <a href="mailto:carllouie.quillo@students.isatu.edu.ph">carllouie.quillo@students.isatu.edu.ph</a>
+                </li>
+                <li>
+                    <span class="label">Phone</span>
+                    <span>(+63) 9969268210</span>
+                </li>
+                <li>
+                    <span class="label">Location</span>
+                    <span>Iloilo City, Philippines</span>
+                </li>
+            </ul>
+            <div>
+                <span class="field-label">Elsewhere</span>
+                <div class="social-row">
+                    <a href="https://facebook.com" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="stroke:var(--ink)"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1"/></svg>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener" class="social-btn" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24"><path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.5-1.3 1.8-2.3-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7A11.6 11.6 0 0 1 3.4 4.6a4.1 4.1 0 0 0 1.3 5.4c-.7 0-1.3-.2-1.9-.5v.1c0 2 1.4 3.6 3.3 4a4.2 4.2 0 0 1-1.9.1c.5 1.6 2 2.8 3.8 2.9A8.2 8.2 0 0 1 2 18.6a11.6 11.6 0 0 0 6.3 1.8c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1Z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <span>&copy; 2026 Carl Louie A. Quillo</span>
+    <a href="legacy/index.html">← See where it started (2022)</a>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
