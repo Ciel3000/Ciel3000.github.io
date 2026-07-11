@@ -254,6 +254,66 @@ img, svg {
     height: 16px;
 }
 
+/* ---- Interactive tear line + hover popup ---- */
+
+/* Invisible hit area shaped like the zigzag seam, so hovering the ACTUAL
+   tear line (not a plain central strip) expands the gap. The clip-path
+   follows the same zigzag as the two paper pieces' meeting edge. */
+.tear-seam-hit {
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    clip-path: polygon(
+        47% 0%, 44% 4%, 50% 8%, 42% 13%, 49% 18%, 41% 24%, 48% 30%, 40% 36%,
+        47% 42%, 41% 48%, 48% 54%, 40% 60%, 47% 66%, 41% 72%, 49% 78%, 42% 84%,
+        50% 90%, 44% 95%, 47% 100%,
+        53% 100%, 50% 95%, 56% 90%, 48% 84%, 55% 78%, 47% 72%, 53% 66%, 46% 60%,
+        54% 54%, 47% 48%, 53% 42%, 46% 36%, 54% 30%, 47% 24%, 55% 18%, 48% 13%,
+        56% 8%, 50% 4%, 53% 0%
+    );
+}
+
+.tear-seam-hit:focus-visible {
+    outline: none; /* focus is indicated by the popup appearing */
+}
+
+/* Popup that appears on hover/focus of the line */
+.tear-tooltip {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    white-space: nowrap;
+}
+
+.tear-seam:has(.tear-seam-hit:hover) .tear-tooltip,
+.tear-seam:has(.tear-seam-hit:focus-visible) .tear-tooltip {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+
+/* On hover/focus of the line, the two paper halves part to open a gap.
+   Scoped to :not(.is-torn) so the 0.9s tear animation keeps its own timing,
+   but the part/close themselves are snappy (0.32s) in both directions. */
+.tear-overlay:not(.is-torn) .tear-piece {
+    transition: transform 0.32s cubic-bezier(.4, 0, .2, 1);
+}
+
+.tear-overlay:not(.is-torn):has(.tear-seam-hit:hover) .tear-piece--left,
+.tear-overlay:not(.is-torn):has(.tear-seam-hit:focus-visible) .tear-piece--left {
+    transform: translateX(-20px);
+}
+
+.tear-overlay:not(.is-torn):has(.tear-seam-hit:hover) .tear-piece--right,
+.tear-overlay:not(.is-torn):has(.tear-seam-hit:focus-visible) .tear-piece--right {
+    transform: translateX(20px);
+}
+
 @keyframes tear-pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
@@ -286,6 +346,14 @@ img, svg {
     }
     .tear-overlay.is-torn .tear-piece--left,
     .tear-overlay.is-torn .tear-piece--right {
+        transform: none;
+    }
+    /* No sliding the halves apart for reduced-motion users; the popup
+       still appears on hover/focus. */
+    .tear-overlay:has(.tear-seam-hit:hover) .tear-piece--left,
+    .tear-overlay:has(.tear-seam-hit:focus-visible) .tear-piece--left,
+    .tear-overlay:has(.tear-seam-hit:hover) .tear-piece--right,
+    .tear-overlay:has(.tear-seam-hit:focus-visible) .tear-piece--right {
         transform: none;
     }
     .tear-button {

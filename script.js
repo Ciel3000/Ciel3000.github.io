@@ -33,6 +33,18 @@
         }
     });
 
+    // The tear line itself is also a click/keyboard target.
+    var tearLine = document.getElementById("tearLine");
+    if (tearLine) {
+        tearLine.addEventListener("click", tearOpen);
+        tearLine.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                tearOpen();
+            }
+        });
+    }
+
     // Lock scroll until torn
     body.classList.add("tear-locked");
 

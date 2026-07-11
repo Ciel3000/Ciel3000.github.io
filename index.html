@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carl Louie Quillo — Portfolio</title>
-<meta name="description" content="Carl Louie A. Quillo — IT student in Iloilo, Philippines. Programming, systems, and a little bit of motorbike mechanics.">
+<meta name="description" content="Carl Louie A. Quillo — IT graduate in Iloilo, Philippines. Programming, systems, and a little bit of motorbike mechanics.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -23,10 +23,13 @@
         <iframe class="tear-frame" data-page="education" src="Old/education.html" title="Old portfolio (2022) — Education"></iframe>
     </div>
     <div class="tear-seam">
-        <button class="tear-button" id="tearButton" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h4l2-7 4 14 2-7h4"/></svg>
-            Tear it open
-        </button>
+        <div class="tear-seam-hit" id="tearLine" tabindex="0" role="button" aria-label="Tear it open"></div>
+        <span class="tear-tooltip">
+            <button class="tear-button" id="tearButton" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h4l2-7 4 14 2-7h4"/></svg>
+                Tear it open
+            </button>
+        </span>
     </div>
 </div>
 
@@ -49,9 +52,9 @@
 
     <!-- HERO -->
     <section class="hero section" id="hero">
-        <p class="hero-eyebrow">Batcherlor of Science in Information Technology — Iloilo, Philippines</p>
+        <p class="hero-eyebrow">Bachelor of Science in Information Technology — Iloilo, Philippines</p>
         <h1 class="hero-name">Carl Louie <span>Quillo</span></h1>
-        <p class="hero-tagline">I build software during the week and tune engines on the weekend — third-year BSIT student who's just as comfortable in a terminal as under a motorbike seat.</p>
+        <p class="hero-tagline">Fresh BSIT graduate who builds software during the week and tunes engines on the weekend — equally at home in a terminal as under a motorbike seat, and ready to bring that same hands-on problem-solving to your team.</p>
         <div class="hero-actions">
             <a href="#projects" class="btn btn--primary">View projects</a>
             <a href="#resume" class="btn btn--ghost">Download resume</a>
@@ -66,10 +69,10 @@
     <!-- ABOUT -->
     <section class="section" id="about">
         <p class="section-eyebrow">About</p>
-        <h2 class="section-heading">From the first "Hello, World" to actually shipping things.</h2>
+        <h2 class="section-heading">From the first "Hello, World" to a diploma — now looking to ship for real.</h2>
         <div class="about-grid">
             <div class="about-copy">
-                <p><strong>I'm an IT student</strong> specializing in programming, compiling, and building small tools that make development smoother — running most of my work through VS Code and XAMPP.</p>
+                <p><strong>I'm a newly graduated IT professional</strong> specializing in programming and building small tools that make development smoother — running most of my work through VS Code and XAMPP, and always looking for the next stack worth learning.</p>
                 <p>Outside the code editor, I'm an <strong>entrepreneur at heart</strong>, always exploring new business ideas and taking a practical, hands-on approach to growing them.</p>
                 <p>And when I step away from the screen, you'll probably find me with a <strong>motorbike</strong> — riding, customizing, and tuning performance. It's the same problem-solving instinct as debugging code, just with more grease.</p>
             </div>
@@ -86,7 +89,7 @@
     <!-- SKILLS -->
     <section class="section" id="skills">
         <p class="section-eyebrow">Skills</p>
-        <h2 class="section-heading">Tools I reach for.</h2>
+        <h2 class="section-heading">What's in the toolbox.</h2>
         <div class="skill-groups">
             <div class="skill-group">
                 <h3>Dev &amp; Tools</h3>
@@ -127,11 +130,11 @@
     <!-- EDUCATION -->
     <section class="section" id="education">
         <p class="section-eyebrow">Education</p>
-        <h2 class="section-heading">The path so far.</h2>
+        <h2 class="section-heading">The path that got me here.</h2>
         <div class="timeline">
             <div class="timeline-item timeline-item--current">
                 <p class="timeline-year">2022 — 2026</p>
-                <p class="timeline-title">BS Information Technology</p>
+                <p class="timeline-title">BS Information Technology, Graduate</p>
                 <p class="timeline-detail">Iloilo Science and Technology University</p>
             </div>
             <div class="timeline-item">
@@ -150,7 +153,7 @@
     <!-- PROJECTS -->
     <section class="section" id="projects">
         <p class="section-eyebrow">Projects</p>
-        <h2 class="section-heading">Things I've built (and things I'm about to).</h2>
+        <h2 class="section-heading">Things I've built — and the proof is coming soon.</h2>
         <div class="project-grid">
             <article class="project-card project-card--placeholder">
                 <p class="project-index">01 / Add your project</p>
@@ -180,7 +183,7 @@
         <div class="resume-card">
             <div>
                 <h3>Carl Louie A. Quillo — Resume</h3>
-                <p>A one-page summary of education, skills, and contact details. Swap this file once your project list is ready.</p>
+                <p>A one-page summary of my education, skills, and contact details — grab it if you're hiring or just want the quick facts.</p>
             </div>
             <a href="Carl_Louie_Quillo_Resume.pdf" class="btn btn--primary" download>
                 Download PDF
@@ -191,7 +194,7 @@
     <!-- CONTACT -->
     <section class="section" id="contact">
         <p class="section-eyebrow">Contact</p>
-        <h2 class="section-heading">Let's talk.</h2>
+        <h2 class="section-heading">Let's build something together.</h2>
         <div class="contact-grid">
             <ul class="contact-list">
                 <li>
