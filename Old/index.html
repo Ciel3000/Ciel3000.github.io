@@ -93,6 +93,9 @@
                 (function () {
                     "use strict";
                     if (window.parent === window) return; // standalone: normal nav
+
+                    // Intercept same-origin link clicks and tell the parent to
+                    // navigate BOTH halves together.
                     document.addEventListener("click", function (e) {
                         var el = e.target;
                         if (!el || !el.closest) return;
@@ -105,6 +108,31 @@
                         e.preventDefault();
                         var abs = new URL(href, document.baseURI).href;
                         window.parent.postMessage({ type: "tear-nav", url: abs }, "*");
+                    });
+
+                    // Keep the two halves scrolled in sync. The parent can't read
+                    // our scroll position when the iframe is cross-origin (e.g.
+                    // opened via file:// in some browsers), so we report our own
+                    // scroll and apply the positions the parent relays to us.
+                    var lastX = -1, lastY = -1, syncing = false;
+
+                    window.addEventListener("scroll", function () {
+                        if (syncing) return;
+                        var x = window.scrollX, y = window.scrollY;
+                        if (x === lastX && y === lastY) return;
+                        lastX = x; lastY = y;
+                        window.parent.postMessage({ type: "tear-scroll", x: x, y: y }, "*");
+                    }, { passive: true });
+
+                    window.addEventListener("message", function (e) {
+                        if (!e.data || e.data.type !== "tear-scroll-to") return;
+                        syncing = true;
+                        window.scrollTo(e.data.x || 0, e.data.y || 0);
+                        // Stay "syncing" until after the programmatic scroll
+                        // event fires, so we don't echo it back to the parent.
+                        requestAnimationFrame(function () {
+                            requestAnimationFrame(function () { syncing = false; });
+                        });
                     });
                 })();
             </script>

@@ -110,70 +110,30 @@
     // A half reported a link click -> switch BOTH halves to that page.
     window.addEventListener("message", function (e) {
         if (!e.data?.type || e.data.type !== "tear-nav") return;
-        if (e.origin !== window.location.origin) return; // Verify origin
+        // NOTE: we intentionally do NOT hard-check e.origin here. Under file://
+        // the parent origin reports as "null" while the iframe's event.origin
+        // can be "null", the file path, or "" depending on the browser, which
+        // would silently drop legitimate navigation messages and leave the
+        // overlay stuck on Profile. The source-frame check below is the real
+        // boundary: it guarantees the message came from one of OUR iframes.
         if (!frames.some(function (f) { return f.contentWindow === e.source; })) return;
         showPage(pageKeyOf(e.data.url));
     });
 
-    // Mirror scroll position between the two active halves. Works under
-    // http; silently no-ops under file:// where cross-frame access is blocked.
-    let syncing = false;
-    function mirrorScroll(from, to) {
-        if (syncing) return;
-        syncing = true;
-        to.contentWindow.scrollTo(from.contentWindow.scrollX, from.contentWindow.scrollY);
-        requestAnimationFrame(function () { syncing = false; });
-    }
-
-    function activeFrames() {
-        return frames.filter(function (f) { return f.classList.contains("is-active"); });
-    }
-
-    function onFrameScroll(frame) {
-        const others = activeFrames().filter(function (f) { return f !== frame; });
-        others.forEach(function (o) { mirrorScroll(frame, o); });
-    }
-
-    frames.forEach(function (frame) {
-        frame.addEventListener("load", function () {
-            frame.contentWindow.addEventListener("scroll", onFrameScroll);
-        });
-    });
-})();
-
-// Collapsible skill groups: add a "See more" toggle only when chips overflow
-// the box. Without JS the groups stay fully open (progressive enhancement).
-(function () {
-    "use strict";
-    const groups = document.querySelectorAll(".skill-group");
-    const COLLAPSED_MAX = 168; // must match the CSS max-height
-
-    groups.forEach(function (group) {
-        const row = group.querySelector(".chip-row");
-        if (!row) return;
-
-        // Measure the natural (unconstrained) height of the chip row.
-        const prevMax = row.style.maxHeight;
-        row.style.maxHeight = "none";
-        const natural = row.scrollHeight;
-        row.style.maxHeight = prevMax;
-
-        // No overflow -> leave the group fully open, no toggle needed.
-        if (natural <= COLLAPSED_MAX + 8) return;
-
-        group.classList.add("is-collapsible");
-
-        const toggle = document.createElement("button");
-        toggle.type = "button";
-        toggle.className = "chip-toggle";
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.textContent = "See more";
-        group.appendChild(toggle);
-
-        toggle.addEventListener("click", function () {
-            const expanded = group.classList.toggle("is-expanded");
-            toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
-            toggle.textContent = expanded ? "See less" : "See more";
+    // Mirror scroll position across BOTH halves. We can't read the iframes'
+    // scroll directly (the listener below would never attach because the
+    // iframes finish loading before this script runs, and cross-origin/file://
+    // access throws). Instead each iframe reports its own scroll over
+    // postMessage and the parent relays it to the other halves — which works
+    // in every environment, including file://.
+    window.addEventListener("message", function (e) {
+        if (!e.data || e.data.type !== "tear-scroll") return;
+        if (!frames.some(function (f) { return f.contentWindow === e.source; })) return;
+        const x = e.data.x || 0, y = e.data.y || 0;
+        frames.forEach(function (f) {
+            if (f.contentWindow !== e.source) {
+                f.contentWindow.postMessage({ type: "tear-scroll-to", x: x, y: y }, "*");
+            }
         });
     });
 })();
@@ -234,6 +194,33 @@
     }, { passive: true });
 
     overlay.addEventListener("touchend", onMouseLeave);
+})();
+
+// Scroll-spy: highlight the nav link for the section currently in view
+(function () {
+    "use strict";
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".nav-links a");
+
+    if (!sections.length || !navLinks.length) return;
+
+    function onScroll() {
+        const scrollPos = window.scrollY + 80; // offset for sticky nav height
+
+        let currentId = "";
+        sections.forEach(function (section) {
+            if (scrollPos >= section.offsetTop) {
+                currentId = section.getAttribute("id");
+            }
+        });
+
+        navLinks.forEach(function (link) {
+            link.classList.toggle("is-active", link.getAttribute("href") === "#" + currentId);
+        });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
 })();
 
 // Periodic amber color shuffle: pick a random amber pair every minute.
