@@ -141,3 +141,40 @@
         });
     });
 })();
+
+// Collapsible skill groups: add a "See more" toggle only when chips overflow
+// the box. Without JS the groups stay fully open (progressive enhancement).
+(function () {
+    "use strict";
+    var groups = document.querySelectorAll(".skill-group");
+    var COLLAPSED_MAX = 168; // must match the CSS max-height
+
+    groups.forEach(function (group) {
+        var row = group.querySelector(".chip-row");
+        if (!row) return;
+
+        // Measure the natural (unconstrained) height of the chip row.
+        var prevMax = row.style.maxHeight;
+        row.style.maxHeight = "none";
+        var natural = row.scrollHeight;
+        row.style.maxHeight = prevMax;
+
+        // No overflow -> leave the group fully open, no toggle needed.
+        if (natural <= COLLAPSED_MAX + 8) return;
+
+        group.classList.add("is-collapsible");
+
+        var toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "chip-toggle";
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.textContent = "See more";
+        group.appendChild(toggle);
+
+        toggle.addEventListener("click", function () {
+            var expanded = group.classList.toggle("is-expanded");
+            toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+            toggle.textContent = expanded ? "See less" : "See more";
+        });
+    });
+})();

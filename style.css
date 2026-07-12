@@ -668,6 +668,59 @@ img, svg {
     color: var(--ink);
 }
 
+/* Collapsible skill groups: show a "See more" toggle only when chips overflow */
+.skill-group.is-collapsible .chip-row {
+    max-height: 168px;
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.35s ease;
+}
+
+.skill-group.is-collapsible .chip-row::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 44px;
+    background: linear-gradient(to bottom, transparent, var(--surface));
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.skill-group.is-collapsible.is-expanded .chip-row {
+    max-height: 1200px;
+}
+
+.skill-group.is-collapsible.is-expanded .chip-row::after {
+    opacity: 0;
+}
+
+.chip-toggle {
+    display: none;
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--teal);
+    background: none;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.skill-group.is-collapsible .chip-toggle {
+    display: inline-block;
+}
+
+.chip-toggle:hover,
+.chip-toggle:focus-visible {
+    border-color: var(--teal);
+    outline: none;
+}
+
 /* ==========================================================================
    Education timeline
    ========================================================================== */
