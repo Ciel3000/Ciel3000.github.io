@@ -108,7 +108,7 @@ img, svg {
     z-index: 50;
     display: grid;
     place-items: center;
-    background: var(--asphalt);
+    background: transparent;
     --tear-gap: 0px;
 }
 
@@ -292,7 +292,8 @@ img, svg {
 }
 
 .tear-seam:has(.tear-seam-hit:hover) .tear-tooltip,
-.tear-seam:has(.tear-seam-hit:focus-visible) .tear-tooltip {
+.tear-seam:has(.tear-seam-hit:focus-visible) .tear-tooltip,
+.tear-seam:has(.tear-tooltip:hover) .tear-tooltip {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
     pointer-events: auto;
