@@ -178,3 +178,61 @@
         });
     });
 })();
+
+// Interactive tear gap: cursor proximity widens the seam
+(function () {
+    "use strict";
+    var overlay = document.getElementById("tearOverlay");
+    if (!overlay) return;
+
+    // Respect reduced motion preference
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var MIN_GAP = 8;
+    var MAX_GAP = 60;
+    var MAX_DISTANCE_RATIO = 0.4; // 40% of viewport width for full effect
+
+    function onMouseMove(e) {
+        if (overlay.classList.contains("is-torn")) return;
+
+        var centerX = window.innerWidth / 2;
+        var distance = Math.abs(e.clientX - centerX);
+        var maxDist = window.innerWidth * MAX_DISTANCE_RATIO;
+
+        var proximity = Math.max(0, 1 - distance / maxDist);
+        var gap = MIN_GAP + (MAX_GAP - MIN_GAP) * proximity;
+
+        overlay.style.setProperty("--tear-gap", Math.round(gap) + "px");
+    }
+
+    function onMouseEnter() {
+        if (overlay.classList.contains("is-torn")) return;
+        // Small default gap when cursor enters the overlay
+        overlay.style.setProperty("--tear-gap", MIN_GAP + "px");
+    }
+
+    function onMouseLeave() {
+        if (overlay.classList.contains("is-torn")) return;
+        overlay.style.setProperty("--tear-gap", "0px");
+    }
+
+    overlay.addEventListener("mousemove", onMouseMove);
+    overlay.addEventListener("mouseenter", onMouseEnter);
+    overlay.addEventListener("mouseleave", onMouseLeave);
+
+    // Touch support
+    overlay.addEventListener("touchmove", function (e) {
+        if (overlay.classList.contains("is-torn")) return;
+        var touch = e.touches[0];
+        onMouseMove({ clientX: touch.clientX });
+    }, { passive: true });
+
+    overlay.addEventListener("touchstart", function (e) {
+        if (overlay.classList.contains("is-torn")) return;
+        var touch = e.touches[0];
+        onMouseEnter();
+        onMouseMove({ clientX: touch.clientX });
+    }, { passive: true });
+
+    overlay.addEventListener("touchend", onMouseLeave);
+})();
