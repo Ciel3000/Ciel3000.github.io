@@ -1,6 +1,6 @@
 /* Basic Reset and Variable Declarations */
 :root {
-    --primary-bg-color: powderblue; /* Background color for the whole page */
+    --primary-bg-color: rgb(1, 33, 37); /* Background color for the whole page */
     --header-bg-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black for headers and sidebar */
     --text-color: white; /* Standard text color for easy readability */
     --highlight-color: yellow; /* Color for highlighting important content */
