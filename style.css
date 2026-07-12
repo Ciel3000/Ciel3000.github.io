@@ -838,6 +838,18 @@ img, svg {
     padding: 5px 10px;
 }
 
+.project-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--amber);
+    text-decoration: none;
+    margin-top: 4px;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
+
 .project-card--placeholder {
     border-style: dashed;
     opacity: 0.85;
