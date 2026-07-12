@@ -108,15 +108,13 @@
     showPage("index");
 
     // A half reported a link click -> switch BOTH halves to that page.
+    // Verify the message came from one of OUR iframes (e.source) and, when
+    // served over http(s), from our own origin. Under file:// the origin is
+    // "null"/varies per browser, so we only enforce the origin match then.
     window.addEventListener("message", function (e) {
         if (!e.data?.type || e.data.type !== "tear-nav") return;
-        // NOTE: we intentionally do NOT hard-check e.origin here. Under file://
-        // the parent origin reports as "null" while the iframe's event.origin
-        // can be "null", the file path, or "" depending on the browser, which
-        // would silently drop legitimate navigation messages and leave the
-        // overlay stuck on Profile. The source-frame check below is the real
-        // boundary: it guarantees the message came from one of OUR iframes.
         if (!frames.some(function (f) { return f.contentWindow === e.source; })) return;
+        if (e.origin && e.origin !== "null" && window.location.origin !== "null" && e.origin !== window.location.origin) return;
         showPage(pageKeyOf(e.data.url));
     });
 
@@ -127,12 +125,17 @@
     // postMessage and the parent relays it to the other halves — which works
     // in every environment, including file://.
     window.addEventListener("message", function (e) {
-        if (!e.data || e.data.type !== "tear-scroll") return;
+        if (e.data?.type !== "tear-scroll") return;
         if (!frames.some(function (f) { return f.contentWindow === e.source; })) return;
+        if (e.origin && e.origin !== "null" && window.location.origin !== "null" && e.origin !== window.location.origin) return;
         const x = e.data.x || 0, y = e.data.y || 0;
+        // Under http(s) we target our real origin; under file:// the iframes
+        // have an opaque "null" origin and only the wildcard "*" delivers
+        // reliably, so fall back to it there.
+        const relayTarget = window.location.protocol === "file:" ? "*" : window.location.origin;
         frames.forEach(function (f) {
             if (f.contentWindow !== e.source) {
-                f.contentWindow.postMessage({ type: "tear-scroll-to", x: x, y: y }, "*");
+                f.contentWindow.postMessage({ type: "tear-scroll-to", x: x, y: y }, relayTarget);
             }
         });
     });

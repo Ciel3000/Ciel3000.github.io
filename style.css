@@ -655,12 +655,6 @@ img, svg {
     margin-bottom: 16px;
 }
 
-.chip-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
 .chip {
     font-family: var(--font-mono);
     font-size: 12px;
@@ -674,6 +668,9 @@ img, svg {
 /* Scrollable chip rows: keep the skills section compact while allowing
    users to scroll through all chips without expanding the section. */
 .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     max-height: 180px;
     overflow-y: auto;
     scrollbar-width: thin;
