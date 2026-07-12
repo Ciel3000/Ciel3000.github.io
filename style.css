@@ -147,7 +147,7 @@ img, svg {
     opacity: 0;            /* hidden until its page is the active one */
     pointer-events: none;  /* inactive halves don't capture input */
     z-index: 1;            /* stacking base; JS raises the incoming page */
-    background-color: powderblue; /* safety net: never show white if unpainted */
+    background-color: var(--asphalt); /* safety net: never show white/blue if unpainted */
     transition: opacity 0.18s ease;
 }
 
