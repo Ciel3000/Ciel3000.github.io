@@ -265,6 +265,8 @@ img, svg {
     inset: 0;
     pointer-events: auto;
     cursor: pointer;
+    background: transparent;
+    border: none;
     clip-path: polygon(
         47% 0%, 44% 4%, 50% 8%, 42% 13%, 49% 18%, 41% 24%, 48% 30%, 40% 36%,
         47% 42%, 41% 48%, 48% 54%, 40% 60%, 47% 66%, 41% 72%, 49% 78%, 42% 84%,

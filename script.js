@@ -1,9 +1,9 @@
 (function () {
     "use strict";
 
-    var overlay = document.getElementById("tearOverlay");
-    var tearBtn = document.getElementById("tearButton");
-    var body = document.body;
+    const overlay = document.getElementById("tearOverlay");
+    const tearBtn = document.getElementById("tearButton");
+    const body = document.body;
 
     if (!overlay || !tearBtn) return;
 
@@ -11,13 +11,13 @@
         if (overlay.classList.contains("is-torn")) return;
         overlay.classList.add("is-torn");
 
-        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var delay = reduceMotion ? 300 : 950;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const delay = reduceMotion ? 300 : 950;
 
         window.setTimeout(function () {
             overlay.classList.add("is-hidden");
             body.classList.remove("tear-locked");
-            var hero = document.getElementById("top");
+            const hero = document.getElementById("top");
             if (hero) {
                 hero.setAttribute("tabindex", "-1");
                 hero.focus({ preventScroll: true });
@@ -34,7 +34,7 @@
     });
 
     // The tear line itself is also a click/keyboard target.
-    var tearLine = document.getElementById("tearLine");
+    const tearLine = document.getElementById("tearLine");
     if (tearLine) {
         tearLine.addEventListener("click", tearOpen);
         tearLine.addEventListener("keydown", function (e) {
@@ -49,8 +49,8 @@
     body.classList.add("tear-locked");
 
     // Mobile nav toggle (progressive enhancement)
-    var toggle = document.querySelector(".nav-toggle");
-    var links = document.querySelector(".nav-links");
+    const toggle = document.querySelector(".nav-toggle");
+    const links = document.querySelector(".nav-links");
     if (toggle && links) {
         toggle.addEventListener("click", function () {
             links.classList.toggle("is-open");
@@ -64,27 +64,27 @@
 // white/blue flash and no reload gap.
 (function () {
     "use strict";
-    var frames = Array.prototype.slice.call(document.querySelectorAll(".tear-frame"));
+    const frames = Array.prototype.slice.call(document.querySelectorAll(".tear-frame"));
     if (frames.length < 2) return;
 
     // "Old/education.html" -> "education", "Old/index.html" -> "index"
     function pageKeyOf(url) {
-        var base = (url || "").split("/").pop();
+        const base = (url || "").split("/").pop();
         return base.replace(/\.html$/i, "") || "index";
     }
 
-    var activeKey = null;   // page currently shown
-    var clearTimer = null;
+    let activeKey = null;   // page currently shown
+    let clearTimer = null;
 
     // Switch pages with a "cover" crossfade: the incoming page fades in ON TOP
     // of the outgoing one (which stays fully opaque underneath), so the paper/
     // white background never shows through — no flash, just a native-like fade.
     function showPage(key) {
         if (key === activeKey) return;
-        var outgoing = activeKey;     // the page currently visible (outgoing)
+        const outgoing = activeKey;     // the page currently visible (outgoing)
         activeKey = key;             // update now so rapid switches work
         frames.forEach(function (f) {
-            var page = f.getAttribute("data-page");
+            const page = f.dataset.page;
             if (page === key) {
                 f.style.zIndex = "3";   // incoming sits above the outgoing page
                 f.classList.add("is-active");
@@ -96,7 +96,7 @@
         if (clearTimer) clearTimeout(clearTimer);
         clearTimer = setTimeout(function () {
             frames.forEach(function (f) {
-                if (f.getAttribute("data-page") !== activeKey) {
+                if (f.dataset.page !== activeKey) {
                     f.classList.remove("is-active");
                     f.style.zIndex = "";
                 }
@@ -109,20 +109,19 @@
 
     // A half reported a link click -> switch BOTH halves to that page.
     window.addEventListener("message", function (e) {
-        if (!e.data || e.data.type !== "tear-nav") return;
+        if (!e.data?.type || e.data.type !== "tear-nav") return;
+        if (e.origin !== window.location.origin) return; // Verify origin
         if (!frames.some(function (f) { return f.contentWindow === e.source; })) return;
         showPage(pageKeyOf(e.data.url));
     });
 
     // Mirror scroll position between the two active halves. Works under
     // http; silently no-ops under file:// where cross-frame access is blocked.
-    var syncing = false;
+    let syncing = false;
     function mirrorScroll(from, to) {
         if (syncing) return;
         syncing = true;
-        try {
-            to.contentWindow.scrollTo(from.contentWindow.scrollX, from.contentWindow.scrollY);
-        } catch (e) {}
+        to.contentWindow.scrollTo(from.contentWindow.scrollX, from.contentWindow.scrollY);
         requestAnimationFrame(function () { syncing = false; });
     }
 
@@ -130,14 +129,14 @@
         return frames.filter(function (f) { return f.classList.contains("is-active"); });
     }
 
+    function onFrameScroll(frame) {
+        const others = activeFrames().filter(function (f) { return f !== frame; });
+        others.forEach(function (o) { mirrorScroll(frame, o); });
+    }
+
     frames.forEach(function (frame) {
         frame.addEventListener("load", function () {
-            try {
-                frame.contentWindow.addEventListener("scroll", function () {
-                    var others = activeFrames().filter(function (f) { return f !== frame; });
-                    others.forEach(function (o) { mirrorScroll(frame, o); });
-                });
-            } catch (e) {}
+            frame.contentWindow.addEventListener("scroll", onFrameScroll);
         });
     });
 })();
@@ -146,17 +145,17 @@
 // the box. Without JS the groups stay fully open (progressive enhancement).
 (function () {
     "use strict";
-    var groups = document.querySelectorAll(".skill-group");
-    var COLLAPSED_MAX = 168; // must match the CSS max-height
+    const groups = document.querySelectorAll(".skill-group");
+    const COLLAPSED_MAX = 168; // must match the CSS max-height
 
     groups.forEach(function (group) {
-        var row = group.querySelector(".chip-row");
+        const row = group.querySelector(".chip-row");
         if (!row) return;
 
         // Measure the natural (unconstrained) height of the chip row.
-        var prevMax = row.style.maxHeight;
+        const prevMax = row.style.maxHeight;
         row.style.maxHeight = "none";
-        var natural = row.scrollHeight;
+        const natural = row.scrollHeight;
         row.style.maxHeight = prevMax;
 
         // No overflow -> leave the group fully open, no toggle needed.
@@ -164,7 +163,7 @@
 
         group.classList.add("is-collapsible");
 
-        var toggle = document.createElement("button");
+        const toggle = document.createElement("button");
         toggle.type = "button";
         toggle.className = "chip-toggle";
         toggle.setAttribute("aria-expanded", "false");
@@ -172,7 +171,7 @@
         group.appendChild(toggle);
 
         toggle.addEventListener("click", function () {
-            var expanded = group.classList.toggle("is-expanded");
+            const expanded = group.classList.toggle("is-expanded");
             toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
             toggle.textContent = expanded ? "See less" : "See more";
         });
@@ -182,25 +181,25 @@
 // Interactive tear gap: cursor proximity widens the seam
 (function () {
     "use strict";
-    var overlay = document.getElementById("tearOverlay");
+    const overlay = document.getElementById("tearOverlay");
     if (!overlay) return;
 
     // Respect reduced motion preference
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    var MIN_GAP = 8;
-    var MAX_GAP = 60;
-    var MAX_DISTANCE_RATIO = 0.4; // 40% of viewport width for full effect
+    const MIN_GAP = 8;
+    const MAX_GAP = 60;
+    const MAX_DISTANCE_RATIO = 0.4; // 40% of viewport width for full effect
 
     function onMouseMove(e) {
         if (overlay.classList.contains("is-torn")) return;
 
-        var centerX = window.innerWidth / 2;
-        var distance = Math.abs(e.clientX - centerX);
-        var maxDist = window.innerWidth * MAX_DISTANCE_RATIO;
+        const centerX = window.innerWidth / 2;
+        const distance = Math.abs(e.clientX - centerX);
+        const maxDist = window.innerWidth * MAX_DISTANCE_RATIO;
 
-        var proximity = Math.max(0, 1 - distance / maxDist);
-        var gap = MIN_GAP + (MAX_GAP - MIN_GAP) * proximity;
+        const proximity = Math.max(0, 1 - distance / maxDist);
+        const gap = MIN_GAP + (MAX_GAP - MIN_GAP) * proximity;
 
         overlay.style.setProperty("--tear-gap", Math.round(gap) + "px");
     }
@@ -223,16 +222,43 @@
     // Touch support
     overlay.addEventListener("touchmove", function (e) {
         if (overlay.classList.contains("is-torn")) return;
-        var touch = e.touches[0];
+        const touch = e.touches[0];
         onMouseMove({ clientX: touch.clientX });
     }, { passive: true });
 
     overlay.addEventListener("touchstart", function (e) {
         if (overlay.classList.contains("is-torn")) return;
-        var touch = e.touches[0];
+        const touch = e.touches[0];
         onMouseEnter();
         onMouseMove({ clientX: touch.clientX });
     }, { passive: true });
 
     overlay.addEventListener("touchend", onMouseLeave);
+})();
+
+// Periodic amber color shuffle: pick a random amber pair every minute.
+(function () {
+    "use strict";
+
+    const AMBER_PAIRS = [
+        { main: "#f2a93b", dim: "#b98428" },
+        { main: "#3b8bff", dim: "#2868b9" },
+        { main: "#ff3b5c", dim: "#b92848" },
+        { main: "#3bff8b", dim: "#28b968" },
+        { main: "#ff3bb5", dim: "#b92888" },
+        { main: "#3bfff5", dim: "#28b9c9" }
+    ];
+
+    function shuffleAmber() {
+        const array = new Uint32Array(1);
+        crypto.getRandomValues(array);
+        const pair = AMBER_PAIRS[array[0] % AMBER_PAIRS.length];
+        const root = document.documentElement;
+        root.style.setProperty("--amber", pair.main);
+        root.style.setProperty("--amber-dim", pair.dim);
+    }
+
+    // Change immediately on load, then every 60 seconds.
+    shuffleAmber();
+    setInterval(shuffleAmber, 30000);
 })();
