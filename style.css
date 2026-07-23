@@ -99,6 +99,36 @@ img, svg {
 }
 
 /* ==========================================================================
+   Floating sparks / dust motes
+   ========================================================================== */
+
+.spark {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    animation: spark-rise linear infinite;
+}
+
+@keyframes spark-rise {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateY(-110vh) translateX(20px);
+        opacity: 0;
+    }
+}
+
+/* ==========================================================================
    Tear overlay — the old portfolio, torn open on click
    ========================================================================== */
 

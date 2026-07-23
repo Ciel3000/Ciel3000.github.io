@@ -226,6 +226,57 @@
     onScroll();
 })();
 
+// Floating sparks / dust motes
+(function () {
+    "use strict";
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const COLORS = ["#f2a93b", "#3fd6c1", "#f5f3ee"];
+    const MAX_SPARKS = 35;
+    const SPAWN_INTERVAL = 600; // ms between spawns
+
+    function createSpark() {
+        const spark = document.createElement("div");
+        spark.classList.add("spark");
+
+        const size = Math.random() * 2.5 + 1; // 1–3.5px
+        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        const left = Math.random() * 100; // vw
+        const duration = Math.random() * 14 + 10; // 10–24s
+        const delay = Math.random() * 4; // 0–4s stagger
+
+        spark.style.width = size + "px";
+        spark.style.height = size + "px";
+        spark.style.backgroundColor = color;
+        spark.style.left = left + "vw";
+        spark.style.bottom = "-10px";
+        spark.style.animationDuration = duration + "s";
+        spark.style.animationDelay = delay + "s";
+        spark.style.boxShadow = "0 0 " + (size * 2) + "px " + color;
+
+        document.body.appendChild(spark);
+
+        // Clean up after animation ends
+        spark.addEventListener("animationend", function () {
+            spark.remove();
+        });
+    }
+
+    // Initial burst
+    for (let i = 0; i < MAX_SPARKS; i++) {
+        createSpark();
+    }
+
+    // Continuous spawn
+    setInterval(function () {
+        const count = document.querySelectorAll(".spark").length;
+        if (count < MAX_SPARKS) {
+            createSpark();
+        }
+    }, SPAWN_INTERVAL);
+})();
+
 // Periodic amber color shuffle: pick a random amber pair every minute.
 (function () {
     "use strict";
